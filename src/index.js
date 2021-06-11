@@ -65,7 +65,14 @@ function Square(props) {
          currentMove: 0,
          boardSize: props.boardSize,
          lines: determineLines(props.boardSize),
+         isAscending: true,
       };
+   }
+    
+   handleSortToggle() {
+      this.setState({
+         isAscending: !this.state.isAscending
+      });
    }
  
    handleClick(i) {
@@ -102,7 +109,7 @@ function Square(props) {
           'Next player: ' + (this.state.xIsNext ? 'X':
                                                   'O'));
 
-      const moveHistory = history.map((step, move) => {
+      let moveHistory = history.map((step, move) => {
          const desc = move ? 'Go to move #' + move + '(' + step.squareMarked % boardSize +',' + Math.floor(step.squareMarked / boardSize) + ')':
                              'Go to game start';
          const ConditionalWrapper = ({ condition, wrapper, children }) =>
@@ -119,6 +126,12 @@ function Square(props) {
             </li>
          )
       });
+
+      const isAscending = this.state.isAscending;
+      if (!isAscending) {
+         moves.reverse();
+      }
+      
       return (
          <div className="game">
          <div className="game-board">
@@ -131,6 +144,9 @@ function Square(props) {
          </div>
          <div className="game-info">
             <div>{status}</div>
+            <button onClick={()=> this.handleSortToggle()}>
+               {isAscending ? 'descending' : 'ascending'}
+            </button>
             <ol>{moveHistory}</ol>
          </div>
          </div>
