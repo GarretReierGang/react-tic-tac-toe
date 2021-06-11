@@ -129,7 +129,7 @@ function Square(props) {
 
       const isAscending = this.state.isAscending;
       if (!isAscending) {
-         moves.reverse();
+         moveHistory.reverse();
       }
       
       return (
